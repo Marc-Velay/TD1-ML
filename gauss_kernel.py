@@ -23,10 +23,11 @@ nb_g = 3
 rbf_list = []
 test_list = []
 
-for C in np.logspace(0, nb_c, nb_c, endpoint=False):
-    print(C)
-for C in np.logspace(0, nb_c, nb_c, endpoint=False):
-    for gamma in np.linspace(0.1, 2, nb_g, endpoint=False):
+C_range = np.logspace(1, 5, nb_c, endpoint=False)
+gamma_range = np.logspace(-3, 3, nb_g, endpoint=False)
+
+for C in C_range:
+    for gamma in gamma_range:
         plt.subplot(nb_c,nb_g,i)
         rbfsvm = svm.SVC(C=C, gamma=gamma)
         rbfsvm.fit(X_train, y_train)
@@ -57,7 +58,7 @@ for C in np.logspace(0, nb_c, nb_c, endpoint=False):
         plt.scatter(X_train[:, 0], X_train[:, 1], cmap=plt.cm.Paired, color=colors[y_train].tolist())
         plt.xlim(xx.min(), xx.max())
         plt.ylim(yy.min(), yy.max())
-        plt.title("train set accuracy : %.3f" % err_train)
+        plt.title("train set accuracy : %.3f, gamma: %.3f, C: %.1f" % (err_train, gamma, C))
 
         print("nb de vecteurs par classe: ",rbfsvm.n_support_)
 

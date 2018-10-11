@@ -20,8 +20,8 @@ plt.scatter(X[:,0], X[:, 1], color=colors[y].tolist(), s=10)
 plt.show()
 
 
-C_range = np.logspace(-2, 10, 3)
-gamma_range = np.logspace(-9, 3, 3)
+C_range = np.logspace(1, 5, 5)
+gamma_range = np.logspace(-2, 3, 5)
 param_grid = dict(gamma=gamma_range, C=C_range)
 cv = StratifiedShuffleSplit(n_splits=5, test_size=0.2, random_state=42)
 grid = GridSearchCV(svm.SVC(), param_grid=param_grid, cv=cv)
@@ -44,6 +44,8 @@ err_train = metrics.accuracy_score (ypred, y_train)
 print("train set accuracy : %.3f" % err_train)
 print(metrics.confusion_matrix(y_train, ypred))
 
+print("nb de vecteurs par classe: ",rbfsvm.n_support_)
+
 
 plt.subplot(2,2,1)
 # Créer un mesh
@@ -59,7 +61,7 @@ plt.contourf(xx, yy, Y, cmap=plt.cm.Paired, alpha=0.8)
 plt.scatter(X_train[:, 0], X_train[:, 1], cmap=plt.cm.Paired, color=colors[y_train].tolist())
 plt.xlim(xx.min(), xx.max())
 plt.ylim(yy.min(), yy.max())
-plt.title("train set accuracy : %.3f" % err_train)
+plt.title("train set accuracy : %.3f, gamma: %.3f, C: %.1f" % (err_train, grid.best_params_["gamma"], grid.best_params_["C"]))
 
 
 plt.subplot(2,2,2)
@@ -76,6 +78,6 @@ plt.contourf(xx, yy, Y, cmap=plt.cm.Paired, alpha=0.8)
 plt.scatter(X_test[:, 0], X_test[:, 1], cmap=plt.cm.Paired, color=colors[y_test].tolist())
 plt.xlim(xx.min(), xx.max())
 plt.ylim(yy.min(), yy.max())
-plt.title("train set accuracy : %.3f" % err_test)
+plt.title("test set accuracy : %.3f, gamma: %.3f, C: %.1f" % (err_test, grid.best_params_["gamma"], grid.best_params_["C"]))
 
 plt.show()
