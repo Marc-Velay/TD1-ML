@@ -20,7 +20,7 @@ X_train, X_test, y_train, y_test = model_selection.train_test_split(X, y, train_
 i=1
 nb_c = 3
 
-for C in np.logspace(0, 1000, nb_c, endpoint=False):
+for C in np.logspace(0, nb_c, nb_c, endpoint=False):
     plt.subplot(nb_c,2,i)
     linsvm = svm.LinearSVC(C=C)
     linsvm.fit(X_train, y_train)

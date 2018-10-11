@@ -23,9 +23,11 @@ nb_g = 3
 rbf_list = []
 test_list = []
 
-for C in np.logspace(0, 10000, nb_c, endpoint=False):
-    for gamma in np.linspace(0.1, 10, nb_g, endpoint=False):
-        plt.subplot(nb_g,nb_c,i)
+for C in np.logspace(0, nb_c, nb_c, endpoint=False):
+    print(C)
+for C in np.logspace(0, nb_c, nb_c, endpoint=False):
+    for gamma in np.linspace(0.1, 2, nb_g, endpoint=False):
+        plt.subplot(nb_c,nb_g,i)
         rbfsvm = svm.SVC(C=C, gamma=gamma)
         rbfsvm.fit(X_train, y_train)
         rbf_list.append(rbfsvm)
@@ -62,8 +64,8 @@ for C in np.logspace(0, 10000, nb_c, endpoint=False):
 plt.show()
 
 
-for i in range(rbf_list.length):
-        plt.subplot(nb_g,nb_c,i)
+for i in range(len(rbf_list)):
+        plt.subplot(nb_c,nb_g,i+1)
         # Créer un mesh
         h = .02 # Espacement du mesh
         x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
@@ -79,6 +81,6 @@ for i in range(rbf_list.length):
         plt.ylim(yy.min(), yy.max())
         plt.title("test set accuracy : %.3f" % test_list[i])
 
-        print("nb de vecteurs par classe: ",rbfsvm.n_support_)
+        print("nb de vecteurs par classe: ",rbf_list[i].n_support_)
 
 plt.show()
